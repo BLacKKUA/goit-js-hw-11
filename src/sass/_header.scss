@@ -1,0 +1,25 @@
+.search-form {
+   background-color: rgb(77, 77, 253);
+   width: 100%;
+   height: 50px;
+   display: flex;
+   justify-content: center;
+}
+
+.js-gallery-container {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+}
+.photo-card {
+   margin: 10px;
+}
+
+.load-more {
+   display: block;
+   margin: 10px auto;
+}
+
+.hidden {
+   display: none;
+}
