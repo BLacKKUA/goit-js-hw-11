@@ -16,12 +16,11 @@ function loadMoreGallery(e) {
    getHTTP(e);
 }
 
-
 function clickOnButton(e) {
+   e.preventDefault();
    refs.loadMore.classList.add('hidden')
    pageGallery = 1;
    refs.gallery.innerHTML = '';
-   e.preventDefault();
    const valueSearch = e.currentTarget.elements.searchQuery.value.trim()
    if (valueSearch == "") {
       Notiflix.Notify.failure("Давай текст");
@@ -37,7 +36,6 @@ const option = {
 }
 
 function getHTTP(e) {
-   refs.loadMore.classList.remove('hidden')
    const inputValue = refs.input.value;
    fetch(`https://pixabay.com/api/?key=${option.key}&q=${inputValue}&image_type=${option.image_type}&orientation=${option.orientation}&safesearch=${option.safesearch}&per_page=40&page=${pageGallery}`)
       .then(data => data.json()).then(data => {
@@ -47,14 +45,16 @@ function getHTTP(e) {
             refs.gallery.innerHTML = '';
          }else {
             renderGallery(data)
-               if(pageGallery == 1){
-                  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)
-               }
+            Notiflix.Notify.success(`Hooray! We found ${data.hits.length} images.`)
+            if (data.hits.length < 40) {
+            refs.loadMore.classList.add('hidden')
+            }
             }
       })
 }
 
 function renderGallery(data) {
+   refs.loadMore.classList.remove('hidden')
    refs.gallery.innerHTML += data.hits.map(gallery => `<div class="photo-card">
    <img src="${gallery.webformatURL}" alt="${gallery.tags}" width="440" height="240" loading="lazy" />
    <div class="info">
